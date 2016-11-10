@@ -9,6 +9,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using WebApplication.Interfaces;
 using WebApplication.Projections;
+using WebApplication.Repositories;
+using MongoDB.Driver;
+using Microsoft.Extensions.Options;
 
 namespace WebApplication
 {
@@ -31,8 +34,26 @@ namespace WebApplication
         public void ConfigureServices(IServiceCollection services)
         {
             // Add framework services.
-            services.AddMvcCore();
+            services.AddMvcCore().AddJsonFormatters();
+
             services.AddTransient<IProjection, NewArticleProjection>();
+
+            if (Configuration["persistence:type"] == "mongodb")
+            {
+                services.Configure<MongoDbSettings>(Configuration.GetSection("persistence"));
+            }
+            
+            services.AddScoped<IMongoClient>( srv => 
+            {
+                var mongoSettings = srv.GetService<IOptions<MongoDbSettings>>().Value;
+                var mongoDbSettings = new MongoClientSettings()
+                {
+                    Server = new MongoServerAddress(mongoSettings.Host, mongoSettings.Port),
+                    ConnectTimeout = new TimeSpan(0, 0, 2)
+                };
+                
+                return new MongoClient(mongoDbSettings);
+            } );
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

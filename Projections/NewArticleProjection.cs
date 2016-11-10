@@ -12,7 +12,10 @@ namespace WebApplication.Projections
 
         public Task<bool> ExecuteAsync(Event evnt)
         {
-            return Task.FromResult(true);
+            return Task.Run(()=> 
+            {
+                return true;
+            });
         }
     }
 }

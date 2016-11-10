@@ -28,6 +28,7 @@ namespace WebApplication.Controllers
             };
 
             var tasks = candidates.Select(c => c.ExecuteAsync(newEvent)).ToArray();
+            // We'll wait for all Tasks to finish before proceeding with the request.
             Task.WaitAll(tasks);
             return Ok();
         }
