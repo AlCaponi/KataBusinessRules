@@ -8,7 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using WebApplication.Interfaces;
-using WebApplication.Projections;
+using WebApplication.Projections.Article;
 using WebApplication.Repositories;
 using MongoDB.Driver;
 using Microsoft.Extensions.Options;
@@ -53,7 +53,7 @@ namespace WebApplication
                 };
                 
                 return new MongoClient(mongoDbSettings);
-            } );
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
