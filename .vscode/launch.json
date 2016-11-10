@@ -26,7 +26,8 @@
                 }
             },
             "env": {
-                "ASPNETCORE_ENVIRONMENT": "Development"
+                "ASPNETCORE_ENVIRONMENT": "Development",
+                "ASPNETCORE_CONTENTROOT": "${workspaceRoot}"
             },
             "sourceFileMap": {
                 "/Views": "${workspaceRoot}/Views"
